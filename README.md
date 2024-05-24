@@ -1,4 +1,4 @@
 # active
 :construction:
-AI-powered app that receives audio files and microphone input. Takes in that conversation data and detects disputes/disagreements/conversational blocks.
+AI-powered active listening app. Given a conversation (mic input, rerecorded audio) it will transcribe the conversation and then identify potential disputes/disagreements/conversational hitches.
 :construction:
