@@ -74,7 +74,7 @@ export async function transcribeAudio(source: SourceType, timestamp: number, blo
         language: "en"
 
       });
-      if (transcription.text.length > 0) {
+      if (transcription.text.length > 13) {
         const parsedTranscription: ParsedTranscriptionType = {
           source,
           timestamp,
