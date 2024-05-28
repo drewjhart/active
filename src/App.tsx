@@ -1,14 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import srtParser2 from 'srt-parser-2';
-import OpenAI from 'openai';
-import { Button, Switch } from '@mui/material';
+import { Switch } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import { motion } from 'framer-motion';
 import { ParsedTranscriptionType, IssueType } from './types/types';
 import {analyseConversation, transcribeAudio} from './lib/ai';
+import { MainContainer, ChatContainer, ButtonContainer } from './lib/styledcomponents/Containers';
+import { PrimaryButton } from './lib/styledcomponents/Buttons';
 import { SourceType } from './types/types';
-import { mockConversationData } from './mock/mock';
-import sound from './audio/test.mp3';
 import voiceone from './audio/voiceone.mp3';
 import voicetwo from './audio/voicetwo.mp3';
 import './App.css';
@@ -163,8 +162,8 @@ function App() {
   }, [bufferArray]);
 
   return (
-    <div className="App" style={{height: '100vh', width: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: 20, top:0, position: 'absolute', backgroundColor: '#282c34'}}>
-        <div style={{ width: '100%', paddingLeft: '20px', paddingRight: '20px', display: 'flex', flexDirection: 'column', gap: 5, boxSizing: 'border-box'}}>
+    <MainContainer>
+        <ChatContainer>
           {bufferArray.length > 0 && bufferArray.map((item, index) =>
             item.text.length > 0 && item.text != '.' && 
             
@@ -193,26 +192,22 @@ function App() {
               }
             </div>
           )}
-        </div>
-        <div style={{display: 'flex', width: '100%', justifyContent: 'center', gap: 10, paddingBottom: 20}}>
-          <div>
-            <Button onClick={() => handleMicRecording(SourceType.VOICE_TWO, true)} variant="contained" style={{backgroundColor: "rgba(0,0,0,0.6)"}}>
+        </ChatContainer>
+        <ButtonContainer>
+          <>
+            <PrimaryButton onClick={() => handleMicRecording(SourceType.VOICE_TWO, true)} variant="contained">
               {isRecording ? 'Stop Mic Recording' : 'Start Mic Recording'}
-            </Button>
+            </PrimaryButton>
             <Switch defaultChecked onChange={handleMicChange}/>
-          </div>
-          <div>
-            <Button onClick={() => handleAudioRecording(SourceType.VOICE_ONE)} variant="contained" style={{backgroundColor: "rgba(0,0,0,0.6)"}}>
-              {isVoiceOneAudioRecording ? 'Stop Voice 1' : 'Start Voice 1'}
-            </Button>
-          </div>
-          <div>
-            <Button onClick={() => handleAudioRecording(SourceType.VOICE_TWO)} variant="contained" style={{backgroundColor: "rgba(0,0,0,0.6)"}}>
-              {isVoiceTwoAudioRecording ? 'Stop Voice 2' : 'Start Voice 2'}
-            </Button>
-          </div>
-        </div>
-    </div>
+          </>
+          <PrimaryButton onClick={() => handleAudioRecording(SourceType.VOICE_ONE)} variant="contained">
+            {isVoiceOneAudioRecording ? 'Stop Voice 1' : 'Start Voice 1'}
+          </PrimaryButton>
+          <PrimaryButton onClick={() => handleAudioRecording(SourceType.VOICE_TWO)} variant="contained">
+            {isVoiceTwoAudioRecording ? 'Stop Voice 2' : 'Start Voice 2'}
+          </PrimaryButton>
+        </ButtonContainer>
+    </MainContainer>
   );
 }
 
