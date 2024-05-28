@@ -4,17 +4,22 @@ import { SourceType, ParsedTranscriptionType } from '../types/types';
 
 const openai = new OpenAI({
   apiKey: '',
-  dangerouslyAllowBrowser: true
+  dangerouslyAllowBrowser: true,
 });
 
-export async function analyseConversation(bufferArray: ParsedTranscriptionType[]) {
+export async function analyseConversation(
+  bufferArray: ParsedTranscriptionType[],
+) {
   try {
-    let messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [{
-      role: "system",
-      content: "You are a formally trained mediator, highly skilled in detecting and resolving conversational disputes in a business context. You will receive an array of strings representing a conversation. You will analyze this array and identify moments in the conversation where individuals are not communicating collaboratively. You will return a JSON object, containing an array of all identified areas, in the following form: {[{voiceOneStrings: string, voiceTwoStrings: string, reason: string}]}",
-    }];
+    let messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+      {
+        role: 'system',
+        content:
+          'You are a formally trained mediator, highly skilled in detecting and resolving conversational disputes in a business context. You will receive an array of strings representing a conversation. You will analyze this array and identify moments in the conversation where individuals are not communicating collaboratively. You will return a JSON object, containing an array of all identified areas, in the following form: {[{voiceOneStrings: string, voiceTwoStrings: string, reason: string}]}',
+      },
+    ];
     messages.push({
-      role: "user", 
+      role: 'user',
       content: `The conversation between two individuals is here in a stringified JSON: ${JSON.stringify(bufferArray)}. 
       Source: voiceone represents one person and source: voicetwo represents the other person. 
       Analyze the strings and identify areas where the two people are speaking passed each other, are not on the same page, or are in dispute.
@@ -49,13 +54,13 @@ export async function analyseConversation(bufferArray: ParsedTranscriptionType[]
         Do not include any additional information or text in the response.
         Do not include markup lanugage or formatting in the response. Ensure that json.parse will work on the provided object before returning it.
         Follow this output exactly. Do not use any other format.
-      `
+      `,
     });
-  
+
     // Make the API call to OpenAI
     const completion = await openai.chat.completions.create({
-        model: 'gpt-4o', 
-        messages: messages,
+      model: 'gpt-4o',
+      messages: messages,
     });
     // Return the response
     return completion.choices[0].message.content;
@@ -64,26 +69,29 @@ export async function analyseConversation(bufferArray: ParsedTranscriptionType[]
   }
 }
 
-export async function transcribeAudio(source: SourceType, timestamp: number, blob: Blob): Promise<ParsedTranscriptionType | null>{
+export async function transcribeAudio(
+  source: SourceType,
+  timestamp: number,
+  blob: Blob,
+): Promise<ParsedTranscriptionType | null> {
   try {
-      const file = await toFile(blob, 'tmp.mp3', { type: 'audio/mp3' });
-      console.log('file', file);
-      const transcription = await openai.audio.transcriptions.create({
-        file,
-        model: "whisper-1",
-        language: "en"
-
-      });
-      if (transcription.text.length > 13) {
-        const parsedTranscription: ParsedTranscriptionType = {
-          source,
-          timestamp,
-          text: transcription.text,
-        };
-        return parsedTranscription;
-      }
-    } catch (error) {
-      console.error('Error during transcription: ', error);
-    };
-    return null;
+    const file = await toFile(blob, 'tmp.mp3', { type: 'audio/mp3' });
+    console.log('file', file);
+    const transcription = await openai.audio.transcriptions.create({
+      file,
+      model: 'whisper-1',
+      language: 'en',
+    });
+    if (transcription.text.length > 13) {
+      const parsedTranscription: ParsedTranscriptionType = {
+        source,
+        timestamp,
+        text: transcription.text,
+      };
+      return parsedTranscription;
+    }
+  } catch (error) {
+    console.error('Error during transcription: ', error);
+  }
+  return null;
 }
