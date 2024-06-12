@@ -6,7 +6,7 @@ AI-powered active listening app. Given a conversation (mic input, prerecorded au
 
 ## Tech
 
-- :hammer_and_wrench: react
+- :hammer_and_wrench: react + typescript
 - :nail_care: mui
 - :brain: openai (`whisper-1` and `gpt-4o`)
 
