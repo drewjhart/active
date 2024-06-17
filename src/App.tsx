@@ -4,7 +4,7 @@ import { Switch } from '@mui/material';
 import ErrorIcon from '@mui/icons-material/Error';
 import { motion } from 'framer-motion';
 import { ParsedTranscriptionType, IssueType } from './types/types';
-import { analyseConversation, transcribeAudio } from './lib/ai';
+import { openAIAPI } from './lib/ai';
 import {
   MainContainer,
   ChatContainer,
@@ -28,11 +28,11 @@ function App() {
   const streamRef = useRef<MediaStream | null>(null);
   const intervalRef = useRef<number | null>(null);
   const audioMediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const parser = new srtParser2();
-
+  const ai = new openAIAPI();
   const [bufferArray, setBufferArray] = useState<ParsedTranscriptionType[]>([
-    { source: SourceType.VOICE_ONE, timestamp: 0, text: 'Hello, how are you?' },
-    { source: SourceType.MIC, timestamp: 0, text: 'I am good, how are you?' },
+    { source: SourceType.VOICE_ONE, timestamp: 0, text: 'Hi!' },
+    { source: SourceType.VOICE_ONE, timestamp: 0, text: 'Welcome to active, a AI-powered active listener that detects miscommunication in conversations.' },
+    { source: SourceType.MIC, timestamp: 0, text: 'Use the buttons below to test it out.' },
   ]);
 
   const clearMicRecording = () => {
@@ -70,7 +70,7 @@ function App() {
           if (e.data.size > 0) {
             audioChunks.push(e.data);
             const blob = new Blob(audioChunks, { type: 'audio/mp3' });
-            const transcribed = await transcribeAudio(
+            const transcribed = await ai.transcribeAudioRequest(
               newMicSource,
               Date.now(),
               blob,
@@ -148,7 +148,7 @@ function App() {
         if (e.data.size > 0) {
           audioChunks.push(e.data);
           const blob = new Blob(audioChunks, { type: 'audio/mp3' });
-          const transcribed = await transcribeAudio(source, Date.now(), blob);
+          const transcribed = await ai.transcribeAudioRequest(source, Date.now(), blob);
           if (transcribed != null)
             setBufferArray((prev) => [...prev, transcribed]);
           audioChunks = []; // Clear the audio chunks after transcription
@@ -175,7 +175,7 @@ function App() {
     bufferArray.sort((a, b) => a.timestamp - b.timestamp);
     if (bufferArray.length % 2 === 0) {
       let output: any;
-      analyseConversation(bufferArray).then((response) => {
+      ai.analyzeConversationRequest(bufferArray).then((response) => {
         if (response != null) {
           output = JSON.parse(response);
           setIssues((prev) => [...prev, output.issues].flat());

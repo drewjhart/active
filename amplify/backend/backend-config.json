@@ -1,0 +1,49 @@
+{
+  "api": {},
+  "function": {
+    "analyzeConversation": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "transcribeAudio": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_analyzeConversation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "analyzeConversation"
+        }
+      ]
+    },
+    "AMPLIFY_function_analyzeConversation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "analyzeConversation"
+        }
+      ]
+    },
+    "AMPLIFY_function_transcribeAudio_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "transcribeAudio"
+        }
+      ]
+    },
+    "AMPLIFY_function_transcribeAudio_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "transcribeAudio"
+        }
+      ]
+    }
+  }
+}
