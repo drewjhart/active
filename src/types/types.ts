@@ -8,6 +8,7 @@ export type ParsedTranscriptionType = {
   source: SourceType;
   timestamp: number;
   text: string;
+  message?: string;
 };
 
 export type IssueType = {
@@ -15,3 +16,7 @@ export type IssueType = {
   voiceTwoString: string;
   reason: string;
 };
+
+export type ParsedIssueType = {
+  analyzedConversation: string;
+}

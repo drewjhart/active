@@ -75,8 +75,7 @@ function App() {
               Date.now(),
               blob,
             );
-            console.log(transcribed);
-            if (transcribed != null)
+            if (transcribed != null && transcribed.text !== null && transcribed.text !== undefined )
               setBufferArray((prev) => [...prev, transcribed]);
             audioChunks = []; // Clear the audio chunks after transcription
           }
@@ -102,7 +101,6 @@ function App() {
       });
     setIsRecording(true);
   };
-
   const handleMicChange = () => {
     const newMicSource = !micVoice;
     setMicVoice(newMicSource);
@@ -149,7 +147,7 @@ function App() {
           audioChunks.push(e.data);
           const blob = new Blob(audioChunks, { type: 'audio/mp3' });
           const transcribed = await ai.transcribeAudioRequest(source, Date.now(), blob);
-          if (transcribed != null)
+          if (transcribed != null && !transcribed.message)
             setBufferArray((prev) => [...prev, transcribed]);
           audioChunks = []; // Clear the audio chunks after transcription
         }
@@ -176,12 +174,16 @@ function App() {
     if (bufferArray.length % 2 === 0) {
       let output: any;
       ai.analyzeConversationRequest(bufferArray).then((response) => {
-        if (response != null) {
-          output = JSON.parse(response);
-          setIssues((prev) => [...prev, output.issues].flat());
+        if (response != null && response.analyzedConversation) {
+          const output = JSON.parse(response.analyzedConversation);
+          if (output && output.issues) {
+            console.log(output);
+            setIssues((prev) => [...prev, output.issues].flat());
+          }
         }
       });
     }
+
   }, [bufferArray]);
 
   return (
