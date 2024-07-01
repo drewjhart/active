@@ -185,7 +185,8 @@ function App() {
     }
 
   }, [bufferArray]);
-
+console.log(bufferArray);
+console.log(issues);
   return (
     <MainContainer>
       <ChatContainer>

@@ -47,6 +47,7 @@ export async function analyseConversation(
         }
 
         After providing the analysis, pause. Ensure that you are only returning a valid JSON object in the above format.
+        Compare the strings you are receiving based on how close they are togther. I don't want you to examine every string against every other string, just when one string represents a response to one or more other strings.
         Do not include any additional information or text in the response.
         Do not include markup lanugage or formatting in the response. Ensure that json.parse will work on the provided object before returning it.
         Follow this output exactly. Do not use any other format.

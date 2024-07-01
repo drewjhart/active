@@ -9,8 +9,8 @@ enum HTTPMethod {
   Post = "POST",
 }
 
-const transcribeAudioEndpoint = 'https://dtuswdnje8.execute-api.us-east-1.amazonaws.com/default/transcribeAudio-dev';
-const analyzeConversationEndpoint = 'https://041mbz10v3.execute-api.us-east-1.amazonaws.com/analyzeConversation/analyzeConversation-dev';
+const transcribeAudioEndpoint = 'https://q8mbkys2lb.execute-api.us-east-1.amazonaws.com/transcribeAudio/transcribeAudio-main';
+const analyzeConversationEndpoint = 'https://041mbz10v3.execute-api.us-east-1.amazonaws.com/analyzeConversation/analyzeConversation-main';
 
 export class openAIAPI {
   private analyzeConversationEndpoint: string;
@@ -38,35 +38,6 @@ export class openAIAPI {
     timestamp: number,
     blob: Blob,
   ):Promise<ParsedTranscriptionType> {
-      // try { 
-      //   const base64Blob = await this.convertBlobToBase64(blob);
-      //   const event = JSON.stringify({
-      //     source,
-      //     timestamp,
-      //     base64Blob
-      //   });
-      //   const buffer = Buffer.from(base64Blob, 'base64');
-      //   const newBlob = new Blob([buffer], { type: 'audio/mp3' });
-      //   const file = await toFile(newBlob, 'tmp.mp3', { type: 'audio/mp3' });
-      //   console.log('file', file);
-      //   const transcription = await openai.audio.transcriptions.create({
-      //     file,
-      //     model: 'whisper-1',
-      //     language: 'en',
-      //   });
-      //   if (transcription.text.length > 13) {
-      //     const parsedTranscription: ParsedTranscriptionType = {
-      //       source,
-      //       timestamp,
-      //       text: transcription.text,
-      //     };
-      //     console.log('parsedTranscription', parsedTranscription);
-      //     return parsedTranscription;
-      //   }
-      // } catch (error) {
-      //   console.error('Error during transcription: ', error);
-      // }
-
     const base64Blob = await this.convertBlobToBase64(blob);
     try {
       const attempt = fetch(this.transcribeAudioEndpoint, {

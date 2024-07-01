@@ -15,11 +15,39 @@
       "function": {
         "analyzeConversation": {
           "deploymentBucketName": "amplify-active-dev-d661d-deployment",
-          "s3Key": "amplify-builds/analyzeConversation-4d667238464562615877-build.zip"
+          "s3Key": "amplify-builds/analyzeConversation-6546666c637176324370-build.zip"
         },
         "transcribeAudio": {
           "deploymentBucketName": "amplify-active-dev-d661d-deployment",
-          "s3Key": "amplify-builds/transcribeAudio-6465482f707233307a58-build.zip"
+          "s3Key": "amplify-builds/transcribeAudio-64567a36307345574747-build.zip"
+        }
+      },
+      "auth": {
+        "active6248420e": {}
+      }
+    }
+  },
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-active-main-9804a-authRole",
+      "UnauthRoleArn": "arn:aws:iam::425876539609:role/amplify-active-main-9804a-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::425876539609:role/amplify-active-main-9804a-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-active-main-9804a-deployment",
+      "UnauthRoleName": "amplify-active-main-9804a-unauthRole",
+      "StackName": "amplify-active-main-9804a",
+      "StackId": "arn:aws:cloudformation:us-east-1:425876539609:stack/amplify-active-main-9804a/ba6493c0-37fa-11ef-81b9-0ec16b2567c5",
+      "AmplifyAppId": "d2o3ym6rixlo9i"
+    },
+    "categories": {
+      "function": {
+        "analyzeConversation": {
+          "deploymentBucketName": "amplify-active-main-9804a-deployment",
+          "s3Key": "amplify-builds/analyzeConversation-6546666c637176324370-build.zip"
+        },
+        "transcribeAudio": {
+          "deploymentBucketName": "amplify-active-main-9804a-deployment",
+          "s3Key": "amplify-builds/transcribeAudio-64567a36307345574747-build.zip"
         }
       }
     }
