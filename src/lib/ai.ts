@@ -88,6 +88,7 @@ export class openAIAPI {
           if (!response.ok) {
             console.error(response.statusText)
           }
+          console.log(response);
           return response.json()
       })
       

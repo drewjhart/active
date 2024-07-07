@@ -3,9 +3,9 @@ import { toFile } from 'openai';
 
 const openai = new OpenAI({auth: process.env.OPENAI_API_KEY});
 
-export async function analyseConversation(
-  bufferArray,
-) {
+export async function handler(event) {
+  const bufferArray = JSON.parse(event.body).bufferArray;
+  console.log(bufferArray);
   try {
     let messages = [
       {
@@ -47,10 +47,10 @@ export async function analyseConversation(
         }
 
         After providing the analysis, pause. Ensure that you are only returning a valid JSON object in the above format.
-        Compare the strings you are receiving based on how close they are togther. I don't want you to examine every string against every other string, just when one string represents a response to one or more other strings.
         Do not include any additional information or text in the response.
         Do not include markup lanugage or formatting in the response. Ensure that json.parse will work on the provided object before returning it.
         Follow this output exactly. Do not use any other format.
+        Preserve the voiceOneString and voiceTwoStrings exactly, including any linebreak characters etc. This is very important. 
       `,
     });
 
@@ -60,8 +60,18 @@ export async function analyseConversation(
       messages: messages,
     });
     // Return the response
-    return completion.choices[0].message.content;
+    console.log('Analyzing conversation: ', completion.choices[0].message.content);
+    return {
+      statusCode: 200,
+      body: JSON.stringify({
+          analyzedConversation: completion.choices[0].message.content
+      }),
+    };
   } catch (error) {
     console.error('Error during analysis: ', error);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Error processing your request' }),
+  };
   }
 }

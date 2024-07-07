@@ -32,7 +32,7 @@ function App() {
   const [bufferArray, setBufferArray] = useState<ParsedTranscriptionType[]>([
     { source: SourceType.VOICE_ONE, timestamp: 0, text: 'Hi!' },
     { source: SourceType.VOICE_ONE, timestamp: 0, text: 'Welcome to active, a AI-powered active listener that detects miscommunication in conversations.' },
-    { source: SourceType.MIC, timestamp: 0, text: 'Use the buttons below to test it out.' },
+    { source: SourceType.MIC, timestamp: 0, text: 'Press the Start Voice 1 and Start Voice 2 buttons below to run a brief demo.' },
   ]);
 
   const clearMicRecording = () => {
@@ -185,8 +185,7 @@ function App() {
     }
 
   }, [bufferArray]);
-console.log(bufferArray);
-console.log(issues);
+
   return (
     <MainContainer>
       <ChatContainer>
